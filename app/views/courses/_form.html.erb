@@ -1,0 +1,37 @@
+
+
+<div class="table-responsive">
+<%= form_for @course ,:html => {:multipart => true} do |f| %>
+<table class="table" >
+  <tr >
+     <td>
+        Name:
+     </td>
+     <td>
+          <%= f.text_field :cname %>
+          <%= validation_errors @course.errors['cname'] %>
+     </td>
+  </tr>
+  
+   <tr>
+     <td>
+        Description:
+     </td>
+     <td>
+          <%= f.text_area :cdesc %>
+          <%= validation_errors @course.errors['cdesc'] %>
+     </td>
+  </tr>
+
+   <tr >
+     <td>
+        <%= f.submit "Save" %>
+     </td>
+     <td>
+         <%= link_to "Cancel", courses_path %>
+     </td>
+  </tr>  
+
+  </table>      
+<% end %>
+</div>

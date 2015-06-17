@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag "mnm_subjects/show_comment"  %>
+<h3 id="comments-heading"><%= t('comments') %></h3>
+
+<span id="comments-count"><% if @comments.nil? %><%= t('no_comments') %><% end %> </span>
+<% if @current_user.employee? and @emp_dept.name == "Teaching" or @current_user.admin? %>
+  <ul id="comments-list">
+    <% if !@comments.nil? %>
+      <% @comments.each do |@cmnt| %>
+        <%= render :partial => "comment" %>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <h4 id="leave-a-comment"><%= t('leave_comment') %></h4>
+  <% if !MnmSharedSubjectAssociation.exists?(:subject_id => params[:id]) %>
+    <% form_remote_for :mnm_subject_comment, :id => 'comments-form', :url => {:controller => "mnm_subjects", :action => 'add_comment' } do |f| %>
+      <div class="comment-content"> <%= f.text_area :subject_comment %> </div>
+      <%= f.hidden_field :subject_id, :value => params[:id] %>
+      <div id="submit-button"><%= submit_tag '', :value =>"► #{t('submit')}" %></div>
+    <% end %>
+  <% else %>
+    <% form_remote_for :mnm_subject_comment, :id => 'comments-form', :url => {:controller => "mnm_subjects", :action => 'add_comment' } do |f| %>
+      <div class="comment-content"> <%= f.text_area :subject_comment %> </div>
+      <%= f.hidden_field :mnm_shared_subject_id, :value => @shared_subject.id unless @shared_subject.nil? %>
+      <%= f.hidden_field :subject_id, :value => @assigned_subject.id unless @assigned_subject.nil? %>
+      <div id="submit-button"><%= submit_tag '', :value =>"► #{t('submit')}" %></div>
+    <% end %>
+  <% end %>
+<% end %>
+<br/><br/>
+

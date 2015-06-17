@@ -1,0 +1,26 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= @shared_subject.name+"'s Batches" %></h1>
+
+  <div id="inner-tab-menu">
+  </div>
+</div>
+<div id="page-yield">
+
+  <div class="box">
+    <ul id="category-list">
+     
+      <% if @batches.empty? %>
+        <%= "No Batches Assigned" %>
+      <% else %>
+        <% @batches.each do |batch| %>
+      <li class="list<%=cycle('odd', 'even')%>">
+            <div class="category-name"><%= batch.name %></div>
+          </li>
+
+        <% end %>
+      <%end%>
+    </ul>
+    <div class="extender"></div>
+  </div>
+</div>

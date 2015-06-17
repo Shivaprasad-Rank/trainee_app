@@ -1,0 +1,32 @@
+<div class="table-responsive">
+<h2>Students IdCards </h2>
+<span><%= link_to "Create New Student Idcards Here",new_studentid_path,:style => "float :right" %></span>
+  <table class="table">
+     <th>Student Idcard</th>	
+       <th>Options</th> 
+          <% if @studentids.empty? %>
+            
+                <tr>
+                <td> No Students Found </td>
+                  </tr>
+            
+            <% else %>
+            
+             <% @studentids.each do |studentid| %>
+            
+               <tr>
+            
+                  <td> 
+   	              <%=link_to studentid.idcards,studentid_path(studentid.id), :style => "text-decoration:none; font_weight:bold; color:green;" %>
+                  </td>
+            
+                  <td> 
+   	              <%= link_to "Edit",edit_studentid_path(studentid.id) %> |
+                  <%= link_to "delete",studentid_path(studentid.id), :method => :delete, :confirm => "Are you sure to delete this student ?" %>
+                  </td>
+                </tr>
+
+               <% end %>
+            <% end %>
+	</table>
+</div>

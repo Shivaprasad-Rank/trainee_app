@@ -1,0 +1,28 @@
+<% unless @students.empty? %>
+  <% unless @status == "answered" %>
+    <% @students.each do |s| %>
+      <% if s.present? %>
+        <div class="listitem">    <%="#{s.full_name} &#x200E; ( #{s.admission_no} ) &#x200E;"%> </div>
+      <% else %>
+        <div class="listitem"><%= t('deleted_student') %></div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% @answers.each do |a| %>
+      <% student = a.student %>
+      <% student ||= ArchivedStudent.find_by_former_id(a.student_id) %>
+      <% if student.present? %>
+        <div class="listitem">
+          <%= link_to " #{student.full_name} &#x200E;",assignment_assignment_answer_path(a.assignment,a) %> &nbsp;  (<%= student.admission_no %>) &nbsp; <%= "&#x200E; #{a.status=="0" ? t('pending'): a.status.to_s.capitalize}"  %>
+          <div class="answer-details"  >
+            <%= t('on_text') %>&#x200E;<%= a.updated_at.strftime("%r , %d %B") %>
+          </div>
+        </div>
+      <% else %>
+        <div class="listitem"><%= t('deleted_student') %></div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <h5><%= "#{t('no_students')}"%></h5>
+<% end %>

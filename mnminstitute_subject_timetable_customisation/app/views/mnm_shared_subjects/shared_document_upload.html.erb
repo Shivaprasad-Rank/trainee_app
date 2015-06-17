@@ -1,0 +1,31 @@
+<h3 id="comments-heading"><%= t('documents') %></h3>
+<% unless flash[:notice].nil? %>
+  <p class="flash-msg"> <%= flash[:notice] %> </p>
+<% end %>
+
+<span id="comments-count"><% if @assigned_subject_docs.empty? %><%= t('no_subject_docs') %> <% end%> </span><br/>
+<% if @current_user.employee? and @emp_dept.name == "Teaching" or @current_user.admin? %>
+  <% form_for :mnm_subject_document, :html=> {:multipart => true}, :url => {:controller => "mnm_shared_subjects", :action => 'document_upload' } do |f2| %>
+    <%= f2.hidden_field :subject_id, :value => @assigned_subject.id %>
+    <%= f2.hidden_field :mnm_shared_subject_id, :value => @shared_subject.id %>
+
+    <div class="label-field-pair">
+      <label for="student_image_file"><%= t('upload_sub_doc') %></label>
+      <div class="text-input-bg"><%= f2.file_field :document, :size=>12 %></div>
+    </div>
+    <%= f2.error_messages  %>
+    <table>
+        <p class="help-block">
+          <span style="font-weight: bold;">Attachments :</span>
+          <% @assigned_subject_docs.each do |sub_doc| %>
+          <tr>
+            <td><%= link_to sub_doc.document_file_name, :controller => "mnm_subjects", :action => "download_attachment" , :id=>sub_doc.id%></td>
+            <%#*<td><%= sub_doc.document_file_name ></td>%>
+            <td><div class="delete-comment"><%= link_to 'Delete', :action => :document_destroy, :id => sub_doc.id, :confirm =>'Are you sure?', :method => :delete %></div></td>
+          </tr>
+        <% end %>
+      </p>
+    </table>
+    <div id="submit-button"><%= f2.submit '', :value =>"► #{t('submit')}" %></div>
+  <% end  %>
+<% end %>

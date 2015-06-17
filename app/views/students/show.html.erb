@@ -1,0 +1,57 @@
+
+<div class="table-responsive">
+
+<h2>List Of Students </h2> 
+<table class="table">
+	<tr>
+		<td>Name:</td>
+		<td><%= @student.name %></td>	
+	</tr>	
+	<tr>
+		<td>Age:</td>
+		<td><%= @student.age %></td>	
+	</tr>	
+	<tr>
+		<td>Address:</td>
+		<td><%= @student.address %></td>	
+	</tr>	
+	<tr>	
+		<td>Email:</td>	
+		<td><%= @student.email %></td>
+	</tr>
+	<tr>
+		<td>Phone:</td>
+		<td><%= @student.phone %></td>	
+	</tr>	
+	<tr>
+		<td>Gender:</td>
+		<td><%= @student.gender %></td>
+	</tr>
+	<tr>
+		<td>ID card Detail:</td>
+		<td><%= @student.studentid.idcards %></td>
+	</tr>
+	<table width="100%" border="1%">
+		<tr>
+			<td>
+				<%= form_tag assign_courses_student_path(@student.id), :method => :put do %>
+                 <% @courses.each do |course|%>
+                  <%= check_box_tag "course_ids[]",course.id,CoursesStudent.exists?(:student_id => @student.id,  :course_id => course.id)  ? true : false %>
+                  <%=  course.cname %>
+                 <% end %>
+                 <%=submit_tag "assign"%>
+                <% end %>
+			</td>
+		</tr>
+
+	</table>
+			
+	<tr>
+		<td>Image:</td>
+		<td><%= image_tag @student.image_filename %></td>
+	</tr>
+	<tr>
+		<td><%= link_to "Home Page", students_path %></td>	
+	</tr>
+</table>
+</div>

@@ -1,0 +1,36 @@
+
+<div class="table-responsive">
+
+<h2>College List Trainee App </h2>
+<span><%= link_to "Create New colleges Here",new_college_path,:style => "float :right" %>
+</span>
+  <table class="table">
+     <th>College Name</th>
+      <th>Options</th>	
+       
+          <% if @colleges.empty? %>
+            
+                <tr>
+                <td> No Colleges Found </td>
+                  </tr>
+            
+            <% else %>
+            
+             <% @colleges.each do |college| %>
+            
+               <tr>
+            
+                  <td> 
+   	              <%=link_to college.colname,college_path(college.id), :style => "text-decoration:none; font_weight:bold; color:green;" %>
+                  </td>
+
+                  <td> 
+   	              <%= link_to "Edit",edit_college_path(college.id) %> |
+                  <%= link_to "delete",college_path(college.id), :method => :delete, :confirm => "Are you sure to delete this college ?" %>
+                  </td>
+                </tr>
+
+               <% end %>
+            <% end %>
+	</table>
+</div>

@@ -1,0 +1,32 @@
+
+<div class="table-responsive">
+<%= form_for @studentid ,:html => {:multipart => true} do |f| %>
+<table class="table">
+ 
+  	<tr>
+			<td>Name(Alp/num/symb):</td>
+			<td>
+				<%= f.text_field :idcards %>
+				<%= validation_errors @studentid.errors['idcards'] %>
+			</td>
+	</tr>
+	<tr>
+			<td>Description:</td>
+			<td>
+				<%= f.text_area :descp %>
+				<%= validation_errors @studentid.errors['descp'] %>
+			</td>
+	</tr>
+	 <tr>
+	
+		<td>
+        	  	<%= f.submit "Save" %>
+		</td>
+	
+		<td>
+				<%= link_to "Cancel",studentids_path %>
+		</td>
+	</tr>
+</table>
+<% end %>
+</div>

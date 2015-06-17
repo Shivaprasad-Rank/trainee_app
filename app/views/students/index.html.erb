@@ -1,0 +1,45 @@
+<div class="table-responsive">
+<h2>Students List </h2>
+<span><%= link_to "Create New Student Here",new_student_path,:style => "float :right" %>
+</span>
+  <table class="table">
+     <th>Student Name</th>
+     <th>Email</th>
+     <th>Status</th>
+      <th>Options</th>	
+       
+          <% if @students.empty? %>
+            
+                <tr class="active">
+                <td class="active"> No Students Found </td>
+                  </tr>
+            <% else %>
+            
+             <% @students.each do |student| %>
+            
+               <tr class="active">
+            
+                  <td class="active"> 
+   	              <%=link_to student.name,student_path(student.id), :style => "text-decoration:none; font_weight:bold; color:green;" %>
+                  </td>
+            
+                  <td class="active"> 
+   	              <%= student.email %>
+                  </td>
+                  <td>
+                    <div id="status_<%= student.id %>"></div>
+                     <%= select_tag :status, options_for_select([['Select Status', ''],['Active', 'Active'], ['Inactive', 'Inactive']],  student.status), :onchange => "update_guest_status(this.value, '#{ student.id }')"  %>
+                   </td>
+
+                  <td class="active"> 
+   	              <%= link_to "Edit",edit_student_path(student.id) %> |
+                  <%= link_to "delete",student_path(student.id), :method => :delete, :confirm => "Are you sure to delete this student ?" %> |
+                    <div id="email_<%= student.id %>"></div>
+                    <%= submit_tag ("Mail"),:onclick => "send_student_mail('#{ student.email }','#{ student.id }')"%>
+                  </td>
+                </tr>
+
+               <% end %>
+            <% end %>
+	</table>
+</div> 

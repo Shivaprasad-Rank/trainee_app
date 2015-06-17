@@ -1,0 +1,37 @@
+<% form_for(:mnm_shared_subject, :url => {:action=> 'create'}) do |f| %>
+
+  <% if @current_user.employee? and @emp_dept.name == "System Admin" or @current_user.admin?%>
+    <div class="label-field-pair">
+      <label for="student_course"><%= t('select_a_subject') %>:
+        <%= image_tag("loader.gif",:align => "absmiddle",:border => 0,:id => "loader", :style =>"display: none;" ) %>
+      </label>
+      <div class="text-input-bg">
+        <%= select :subject, :id,
+          @subjects.map {|b| [b.name, b.id] },
+          {:prompt => t('select_a_subject')},
+          {:onchange => "#{remote_function(
+          :url => { :action => 'create' },
+          :with => "'subject_id='+value",
+          :before => "Element.show('loader')",
+          :success => "Element.hide('loader')"  )}"} %>
+      </div></div>
+
+    <div class="add_sub" style ="margin-top:40px;">
+      <%= link_to "Students" %>
+    </div>
+    <ul id="category-list">
+      <% @students.each do |student| %>
+        <li class="list<%=cycle('odd', 'even')%>">
+          <label><div><%= check_box_tag "student_ids[]", student.id, false, :class => 'right' %></div>&nbsp;
+            <div class="category-name"><%= student.first_name %></div>
+            <div class="opt">
+              <div class="category-code"><%= student.admission_no %></div>
+            </div>
+          </label>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= f.submit "Assign students",:class=>'submit_button' %>
+  <% end %>
+<% end %>

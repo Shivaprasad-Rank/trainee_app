@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TraineeApp</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+    <div class="container">
+      <div class="row">
+    
+       <nav class="navbar navbar-default navbar-left" role="navigation">
+       
+        <div class="col-md-3">
+       
+        <ul class="pagination pagination-lg">
+        <li class="navbar-text"><%= link_to "Dashboard",students_path %></li></br>
+        <li class="navbar-text"><%= link_to "Colleges ",colleges_path %></li></br>
+        <li class="navbar-text"><%= link_to "Student ids",studentids_path %></li></br>
+        <li class="navbar-text"><%= link_to "Courses  ",courses_path %></li>
+      </ul>
+    
+      </div>
+      
+          </nav>
+          <div class="col-md-9"> 
+            <div id= "user_nav">
+      <% if user_signed_in? %>
+       Signed in as <%= current_user.email %>. Not You?
+       <%= link_to "Sign out", destroy_user_session_path,:method => :delete %>
+       
+        <% end %>
+
+<!--        <script>
+
+//   window.fbAsyncInit = function() {
+//     FB.init({
+//       appId      : '1516078655298483',
+//       xfbml      : true,
+//       version    : 'v2.2'
+//     });
+//   };
+
+//   (function(d, s, id){
+//      var js, fjs = d.getElementsByTagName(s)[0];
+//      if (d.getElementById(id)) {return;}
+//      js = d.createElement(s); js.id = id;
+//      js.src = "//connect.facebook.net/en_US/sdk.js";
+//      fjs.parentNode.insertBefore(js, fjs);
+//    }(document, 'script', 'facebook-jssdk'));
+// </script>
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div> -->
+       
+          </div>
+         <%= yield %> 
+       </div> 
+     </div>
+    </div>
+  
+</body>
+</html>

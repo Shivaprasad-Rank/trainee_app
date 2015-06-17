@@ -1,0 +1,36 @@
+
+
+<div class="table-responsive">
+
+<h2>list of courses</h2>
+<table class="table">
+   <tr>
+       <td>
+           Name:
+       </td>
+
+        <td>
+           <%= @course.cname %>
+        </td>
+    </tr>
+              
+     
+    <tr>
+       <td>
+            Description:
+        </td>
+        <td>
+            <%= @course.cdesc %>
+         </td>
+    </tr>
+             
+
+     
+    <tr>
+     <td>
+         <%= link_to "home Page", courses_path %>
+       </td>
+       
+       </tr>
+       </table>       
+     </div>

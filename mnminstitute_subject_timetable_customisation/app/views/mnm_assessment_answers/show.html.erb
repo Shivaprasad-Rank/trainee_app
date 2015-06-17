@@ -1,0 +1,69 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= "#{t('assignment_text')}"%></h1>
+  <div class='header-sep'>|</div>
+  <div class='sub-header'><%= "#{t('answer')}"%> </div>
+</div>
+
+<% unless flash[:notice].nil? %> <p class="flash-msg"> <%= flash[:notice] %> </p> <% end %>
+<div id="answer-container">
+  <h4><%= "#{t('assignment_text')}"%></h4>
+  <% if @assignment_answer.assignment.present? %>
+    <div class="assignment-question"><%= link_to @assignment_answer.assignment.title.to_s , @assignment %></div>
+  <% else %><div class="assignment-question"><%= t('this_answer_is_not_for_the_assignment') %></div>
+
+  <% end %>
+  <h4><%= "#{t('answer')}"%></h4>
+  <div class="assignment-answer">
+    <div class="assignment-answer-title"><%= @assignment_answer.title.to_s   %></div>
+    <div class="assignment-answer-content"><%= @assignment_answer.content.to_s %></div>
+    <% unless @assignment_answer.attachment_file_name.nil? %> <div id="attachment"><%= link_to @assignment_answer.attachment_file_name.to_s, :controller => "assignment_answers", :action => "download_attachment" , :assignment_answer=>@assignment_answer.id %></div><%  end %>
+  </div>
+
+  <div class="answer-details">
+    <div class="label-div-pair"><label for="student-name"><%= "#{t('submitted_by')}"%></label><div id="student-name" class="themed_text"> <%= @assignment_answer.student_details.present? ? @assignment_answer.student_details.full_name : t('no_students') %></div></div>
+    <div class="label-div-pair"><label for="submitted-date"><%= "#{t('submitted_on')}"%> </label><div id="submitted-date" class="themed_text"><%= @assignment_answer.created_at.strftime("%I:%M %p, %d %B, %Y")%></div></div>
+    <% if @current_user.student? %>
+      <% if @current_user.student_record.id == @assignment_answer.student_id %>
+        <div class="label-div-pair"><label for="answer-status"><%= "#{t('status')}"%></label>
+          <div id="answer-status" class="themed_text">
+            <% if @assignment_answer.status == "0"  %>
+              <%= "#{t('this_answer_yet_to_be_evaluated')}"%>
+            <% else %>
+              <%= "#{t('the_assignment_is')}"%>  <%= @assignment_answer.status.capitalize   %> <%=  link_to  "(#{t('resubmit_answer')})" ,  edit_assignment_assignment_answer_path(@assignment,@assignment_answer)  unless @assignment_answer.status=="ACCEPTED"%>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div id="evaluate-answer">
+    <% if @current_user.employee? %>
+      <% if @current_user.employee_record.id == @assignment_answer.assignment.employee_id %>
+        <% unless @assignment_answer.status=="ACCEPTED" %>  <%= link_to "#{t('accept_answer')}",  {:controller => "assignment_answers", :action => "evaluate_assignment" ,:id=>@assignment_answer.id,:status=>"ACCEPTED"},:class=>"submit-button" %><% end %>
+        <% unless @assignment_answer.status=="REJECTED" %>  <%= link_to "#{t('reject_answer')}",  {:controller => "assignment_answers", :action => "evaluate_assignment" ,:id=>@assignment_answer.id,:status=>"REJECTED" },:class=>"submit-button" %><% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h3 id="comments-heading"><%= t('comments') %></h3>
+
+  <span id="comments-count"><% if @comments.nil? %><%= t('no_comments') %><% end %></span>
+
+  <ul id="comments-list">
+    <% if !@comments.nil? %>
+      <% @comments.each do |@cmnt| %>
+        <%= render :partial => "comment" %>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <% if @current_user.employee? and @emp_dept.name == "Teaching" %>
+    <h4 id="leave-a-comment"><%= t('leave_comment') %></h4>
+    <% form_remote_for :mnm_assessment_answer, :id => 'comments-form' , :url => {:controller => "mnm_assessment_answers", :action => 'add_comment'} do |f| %>
+      <div class="comment-content"> <%= f.text_area :assessment_comment %> </div>
+      <%= f.hidden_field :assignment_id, :value => @assessment.id %>
+      <div id="submit-button"><%= submit_tag '', :value =>"#{t('Add_comment')}" %></div>
+    <% end %>
+  <% end %>
+</div>

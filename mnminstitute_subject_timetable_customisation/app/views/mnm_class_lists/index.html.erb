@@ -1,0 +1,32 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= "Mnm Class Lists" %></h1>
+
+  <div id="inner-tab-menu">
+    <ul>
+      <li class='themed_bg themed-dark-hover-background'><%= link_to "New", :action => :new %> </li>
+    </ul>
+  </div>
+</div>
+<% unless flash[:notice].nil? %>
+  <p class="flash-msg"> <%= flash[:notice] %> </p>
+<% end %>
+<div id="page-yield">
+
+  <div class="box">
+    <h4 align="center"><%= 'Class Lists'%></h4>
+    <ul id="category-list">
+
+      <% @class_lists.each do |class_list| %>
+        <li class="list<%=cycle('odd', 'even')%>">
+          <div class="category-name"><%= link_to class_list.subject_name, :action => :show, :id => class_list.id %></div>
+          <div class="category-edit"><%= link_to "#{t('edit_text')}", :action => :edit, :id => class_list.id %></div><div class="category-delete">   <%= link_to(t('delete_text'), :action => :destroy, :id => class_list.id, :method => 'delete', :confirm => "#{t('delete_confirm_msg')}") %></div>
+        </li>
+      <% end %>
+
+    </ul>
+    <div id="modal-box" style="display:none;"></div>
+    <div class="extender"></div>
+  </div>
+</div>
+

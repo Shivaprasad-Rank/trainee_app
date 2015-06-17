@@ -1,0 +1,37 @@
+
+<div class="table-responsive">
+
+<h2>Courses List Training</h2>
+<span><%= link_to "Create New Course", new_course_path, :style => "float:right;" %></span>
+<table  class="table" >
+	<th> Course Name </th>
+	<th> Description</th>
+   <th>Options</th>  
+	<% if @courses.empty? %>
+		   <tr>
+			     <td> 
+               No Courses Found 
+             </td> 
+        </tr> 
+
+    <% else %>
+
+      <% @courses.each do |course| %>
+        <tr>
+			     <td> 
+               <%= link_to course.cname,course_path(course.id), :style => "text-decoration:none; font_weight:bold; color:green;" %> 
+             </td>
+           <td> 
+               <%= course.cdesc %> 
+             </td> 
+           <td> 
+                <%= link_to "Edit",edit_course_path(course.id) %>
+               <%= link_to "Delete",course_path(course.id), :method => 'delete', :confirm => "Are you sure to delete this course?" %>
+            </td>
+      </tr> 
+      <% end %> 
+
+    <% end %>  
+
+</table>
+</div>

@@ -1,0 +1,33 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= "Class List Students" %></h1>
+
+  <div id="inner-tab-menu">
+  </div>
+</div>
+<div id="page-yield">
+
+  <div class="box">
+    <h4 align="center"><%= 'Class List Students'%></h4>
+    <ul id="category-list">
+      <% @classlist_students.each do |student| %>
+        <li class="list<%=cycle('odd', 'even')%>">
+          <div class="category-name"><%= student.first_name %></div>
+          <div class="opt">
+            <div class="category-code"><%= student.admission_no %></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <ul id="category-list">
+      <li class="list<%=cycle('odd', 'even')%>">
+        <div class="category-class"><%= link_to "#{t('edit_text')}", :action => :edit, :id => @class_list.id %></div>
+        <div class="category-class"><%= link_to "#{t('index_text')}", :action => :index %></div>
+      </li>
+    </ul>
+    <div id="modal-box" style="display:none;"></div>
+    <div class="extender"></div>
+  </div>
+</div>
+
+

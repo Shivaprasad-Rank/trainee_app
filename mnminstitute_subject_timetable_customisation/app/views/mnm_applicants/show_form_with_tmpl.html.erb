@@ -1,0 +1,46 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "applicant_registration" %>
+<% end %>
+
+<div id="content-header">
+<%= show_header_icon %>
+  <h1><%= "Rank" %></h1>
+<div class='header-sep'>|</div>
+<div class='sub-header'><%= t('new_applicant') %></div>
+
+</div>
+<div id="page-yield">
+  <%= render :partial => "mnm_applicants/form_with_tmpl" %>
+</div>
+
+<script type="text/javascript">
+  function get_value()
+  {
+    values = [];
+    $$('.batches_box').each(function (checkbox)
+    {
+      if(checkbox.checked == 1)
+        values.push(checkbox.value);
+    }
+  );
+    return values;
+  }
+  function calculate_amount()
+  {
+
+    var total=0
+    $$('input.batches_box').each(
+    function(checkbox)
+    {
+      if(checkbox.checked == true)
+      {
+        var a=checkbox.value.split(" ");
+        var b=a[a.length-1];
+        var c=parseFloat(b);
+        total+=c
+      }
+    }
+  );
+    $('amount_details').select('span')[2].innerHTML=total
+  }
+</script>

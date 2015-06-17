@@ -1,0 +1,57 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "applicant_registration" %>
+<% end %>
+
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= t('applicant') %></h1>
+  <div class='header-sep'>|</div>
+  <div class='sub-header'><%= t('edit_applicant') %></div>
+
+</div>
+<div id="page-yield">
+  <div class="bread_crumb">
+    <% breadcrumb :applicants_edit ,@applicant%>
+    <%= render_breadcrumbs  %>
+  </div>
+
+
+
+  <%= render :partial => "mnm_applicants/form_with_tmpl" %>
+</div>
+<script type="text/javascript">
+  function roundVal(val)
+  {
+    var dec = parseInt("<%= @precision%>") ;
+    var result = Math.round(val*Math.pow(10,dec))/Math.pow(10,dec);
+    return result;
+  }
+  function get_value()
+  {
+    values = [];
+    $$('.batches_box').each(function (checkbox)
+    {
+      if(checkbox.checked == 1)
+        values.push(checkbox.value);
+    }
+  );
+    return values;
+  }
+  function calculate_amount()
+  {
+    var total=0
+    $$('input.batches_box_elective').each(
+    function(checkbox)
+    {
+      if(checkbox.checked == true)
+      {
+        var a=checkbox.value.split(" ");
+        var b=a[a.length-1];
+        var c=parseFloat(b);
+        total+=c
+      }
+    }
+  );
+    $('amount_details').select('span')[2].innerHTML=roundVal(parseFloat(total));
+  }
+</script>

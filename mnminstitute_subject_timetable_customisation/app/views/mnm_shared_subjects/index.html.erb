@@ -1,0 +1,35 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= "Shared Subjects" %></h1>
+
+  <div id="inner-tab-menu">
+    <ul>
+      <li class='themed_bg themed-dark-hover-background'><%= link_to "New", :action => :new %> </li>
+      <li class='themed_bg themed-dark-hover-background'><%= link_to "Assign Shared Subjects", :action => :assign_batches %> </li>
+    </ul>
+  </div>
+
+</div>
+<div id="page-yield">
+
+  <div class="box">
+    <h4 align="center"><%= 'Shared Subjects' %></h4>
+    <ul id="category-list">
+
+      <% @shared_subjects.each do |shared_subject| %>
+        <li class="list<%=cycle('odd', 'even')%>">
+          <div class="category-name"><%= link_to shared_subject.name, :action => :show, :id => shared_subject.id %></div>
+          <div class="category-edit"><%= link_to "#{t('edit_text')}", :action => :edit, :id => shared_subject.id %></div><div class="category-delete">   <%= link_to(t('delete_text'), :action => :destroy, :id => shared_subject.id, :method => 'delete', :confirm => "#{t('delete_confirm_msg')}") %></div>
+          <div class="category-subject"><%= link_to_remote "add comment", :url => { :controller => "mnm_subjects", :action => "show_comment", :id => shared_subject.id  } %>&nbsp;</div>
+          <div class="category-subject"><%= link_to "add document", :controller => "mnm_shared_subjects", :action => "shared_document_upload", :id => shared_subject.id %></div>
+        </li>
+      <% end %>
+
+    </ul>
+    <div id="modal-box" style="display:none;"></div>
+    <div class="extender"></div>
+  </div>
+</div>
+
+
+

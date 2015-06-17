@@ -1,0 +1,127 @@
+	
+<div class="table-responsive">
+	
+ <%= form_for @student ,:html => {:multipart => true} do |f| %>
+<table class="table" >
+ 
+  	<tr>
+			<td>Name:</td>
+			<td>
+				<%= f.text_field :name %>
+				<%= validation_errors @student.errors['name'] %>
+			</td>
+	</tr>
+	<tr>
+			<td>Phone:</td>
+			<td>
+				<%= f.text_field :phone, :maxlength => 10%>
+				<%= validation_errors @student.errors['phone'] %>
+			</td>
+	</tr>
+	<tr>
+			<td>Student_Id:</td>
+			<td>
+            <% @id_cards = [] %>
+            <% @all_ids = Studentid.all %>
+            <% @all_ids.each do |idcard| %>
+             <% if idcard.student.nil? %>
+               <% @id_cards << idcard %>
+             <% end %>
+            <% end %>
+				<%= f.select :studentid_id, options_for_select([["Select Id cards",""]]+@id_cards.collect {|r| [r['idcards'],r['id']] },@student.studentid_id) %>
+
+			</td>
+	</tr> 
+	<tr>
+			<td>Age:</td>
+			<td>
+				<%= f.select :age ,options_for_select((1..100),@student.age),:prompt => "Select Age"%>
+				<%= validation_errors @student.errors['age'] %>
+			</td>
+	</tr>
+	<tr>
+			<td>Address:</td>
+			<td>
+				<%= f.text_area :address %>
+				<%= validation_errors @student.errors['address'] %>
+			</td>
+	</tr>
+	 <tr>
+			<td>Email:</td>
+			<td>
+				<%= f.text_field  (:email) %>
+				<%= validation_errors @student.errors['email'] %>
+			</td>
+	</tr> 
+	<tr>
+			<td>Gender:</td>
+			<td>
+				 
+			 	Male: <%= f.radio_button :gender, 'male' %>
+			  	
+			 	Female : <%= f.radio_button :gender, 'female'%>
+				 
+			</td>
+	</tr>	
+	<tr>	
+	<td>
+        <label  for="exampleInputFile">Photo </label>
+        <%= f.file_field :image_filename,:onchange =>"validateFiles(this);",
+          :data => {
+          :max_file_size => 500.kilobytes
+        }, :id => "exampleInputFile"%>
+      
+      </td>
+      </tr>
+      <tr>
+	
+		<td>
+        	 College:
+		</td>
+	
+		<td>
+			<%= f.select :college_id, options_for_select((College.all(:select => "colname, id").map {|r| [r.colname,r.id] }), @student.college_id ),:prompt => "Select College" %>
+
+				 
+		</td>
+	</tr>
+	 <tr>
+	
+		<td>
+        	  	<%= f.submit "Save" %>
+		</td>
+	
+		<td>
+				<%= link_to "Cancel",students_path %>
+		</td>
+	</tr>
+</table>
+<% end %>
+  <script type="text/javascript">
+    function validateFiles(inputFile) {
+      var maxExceededMessage = "This file exceeds the maximum allowed file size (500 KB)";
+      var extErrorMessage = "Only image file with extension: .jpg, .jpeg, .gif or .png is allowed";
+      var allowedExtension = ["jpg", "jpeg", "gif", "png"];
+
+      var extName;
+      var maxFileSize = $(inputFile).data('max-file-size');
+      var sizeExceeded = false;
+      var extError = false;
+
+      $.each(inputFile.files, function() {
+        if (this.size && maxFileSize && this.size > parseInt(maxFileSize)) {sizeExceeded=true;};
+        extName = this.name.split('.').pop();
+        if ($.inArray(extName, allowedExtension) == -1) {extError=true;};
+      });
+      if (sizeExceeded) {
+        window.alert(maxExceededMessage);
+        $(inputFile).val('');
+      };
+
+      if (extError) {
+        window.alert(extErrorMessage);
+        $(inputFile).val('');
+      };
+    }
+  </script>
+</div>

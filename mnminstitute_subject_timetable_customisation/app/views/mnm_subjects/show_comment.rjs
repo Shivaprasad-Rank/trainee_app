@@ -1,0 +1,2 @@
+page.replace_html 'modal-box', :partial => 'show_comment'
+page << "Modalbox.show($('modal-box'), {title: 'add comment', width: 600});"

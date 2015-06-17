@@ -1,0 +1,47 @@
+<div id="content-header">
+  <%= show_header_icon %>
+  <h1><%= "Mnm Shared Subjects" %></h1>
+</div>
+<div id="page-yield">
+
+  <% unless flash[:notice].nil? %>
+    <p class="flash-msg"> <%= flash[:notice] %> </p>
+  <% end %>
+
+  <div class="box">
+    <div class="bread_crumb">
+      <%= "New Shared Subject" %>
+    </div>
+
+    <% form_for @shared_subject, :url => {:action => :create} do |s| %>
+      <%= s.error_messages  %>
+      <div class="label-field-pair">
+        <div class="label-container"><%= s.label "Name" %></div>
+        <div class="input-container"><%= s.text_field :name %></div>
+      </div>
+
+      <div class="label-field-pair">
+        <div class="label-container"><%= s.label "Code" %></div>
+        <div class="input-container"><%= s.text_field :code %></div>
+      </div>
+
+      <div class="label-field-pair">
+        <div class="label-container"><%= s.label "Max Weekly Classes" %></div>
+        <div class="input-container"><%= s.text_field :max_weekly_classes %></div>
+      </div><br/>
+
+      <div class="label-field-pair">
+        <div class="label-container"><label><%= t('no_exam') %></label></div>
+        <div class="input-container"><%= s.check_box :no_exams %></div>
+      </div>
+
+      <%= s.submit "► save", :class => "submit_button" %>
+
+    <% end %>
+
+    <div class="extender"></div>
+
+  </div></div>
+
+
+
